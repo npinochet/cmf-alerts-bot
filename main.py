@@ -47,7 +47,7 @@ def check_data(data, out):
     for i in range(istr_num):
         y = float(data[i][3].replace(",", "."))
         n = float(data[istr_num + i][3].replace(",", "."))
-        if y != 0 and abs(n/y) <= 0.9:
+        if y != 0 and (abs(n/y) <= 0.9 or abs(n/y) >= 1.1):
             out.append(n)
             out.append(y)
             return "alert"
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
         if status == "alert":
             print("ALERT TIME!!!", names[i])
-            diff = (abs(value[0] - value[1])/value[1]) * 100
+            diff = ((value[0] - value[1])/value[1]) * 100
             text = alert_template.format(names[i], value[0], value[1], diff, get_value_url(r))
             send_message(text)
         elif status == "no_change":
